@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 )
 
 func main() {
@@ -22,7 +23,10 @@ func handle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resp, err := http.Get("https://api.coindesk.com/v1/bpi/currentprice.json")
+	cur := strings.Replace(r.Form.Get("text"), " ", ",", -1)
+	fmt.Println(cur)
+
+	resp, err := http.Get("https://api.coinmarketcap.com/v1/ticker/")
 	if err != nil {
 		http.Error(w, "Error requesting url", http.StatusInternalServerError)
 		return
